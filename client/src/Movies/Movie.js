@@ -11,6 +11,18 @@ export default class Movie extends React.Component {
     };
   }
 
+// AXIOS DELETE
+
+  deleteMovie = id => {
+    axios
+    .delete(`http://localhost:5000/api/movies/${id}`)
+    .catch(err => {
+      console.log(err.response)
+  })
+  this.props.history.push('/')
+ 
+  }
+
   componentDidMount() {
     this.fetchMovie(this.props.match.params.id);
   }
@@ -35,7 +47,7 @@ export default class Movie extends React.Component {
 
   render() {
     if (!this.state.movie) {
-      return <div>Loading movie information...</div>;
+      return <div>Loading...</div>;
     }
 
     return (
@@ -47,6 +59,9 @@ export default class Movie extends React.Component {
         <Link to={'/update-movie/${this.state.movie.id}'}>
           <div className="update-btn">Update Movie</div>
         </Link>
+        <button onClick={() => this.deleteMovie(this.state.movie.id)} className="delete-button">
+          Delete
+        </button>
       </div>
     );
   }
